@@ -15,8 +15,8 @@ implemented cryptology algorithms
 
    import hill as hill
    
-   ciphertext = hill.encrypt(plaintext, keymatrix, alphabet)
-   plaintext  = hill.decrypt(ciphertext, keymatrix, alphabet)
+   ciphertext = hill.encrypt(plaintext, keymatrix)
+   plaintext  = hill.decrypt(ciphertext, keymatrix)
 
 nmatrix.py
 -----------
