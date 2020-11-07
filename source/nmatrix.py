@@ -93,6 +93,12 @@ class NMatrix(object):
     '''
     @classmethod
     def identity(cls, n):
+        '''identity matrix, n*n
+        
+           params:
+             - n        int - num of rows and cols
+           return an NMatrix with 1s on diagonal; all other elements are 0s
+        '''
         return cls([[int(x==y) for x in range(0,n)] for y in range(0,n)])
 
     @classmethod
@@ -102,6 +108,7 @@ class NMatrix(object):
            params:
              - nrows        int - num of rows
              - ncols        int - num of cols; if None m will be equal to n
+           return an NMatrix composed of all 0s
         '''
         if ncols is None:
             ncols = nrows
@@ -109,11 +116,15 @@ class NMatrix(object):
 
     @classmethod
     def randoms(cls, nrows, ncols=None, rands=None):
-        '''a matrix of zeroes
+        '''a matrix of random choices
         
            params:
-             - n        int - num of rows
-             - m        int - num of cols; if None m will be equal to n
+             - nrows        int - num of rows
+             - ncols        int - num of cols; if None ncols will be equal to nrows
+             - rands        list - of numbers to peek from, in a random way
+           return an NMatrix composed of elements get from rands in a random way
+           note. if rands is None, it will be made composing an interval of numbers [0, 1)
+                 with step==1/(nrows*ncols*10); numbers will be rounded at (nrows*ncols*10) order of magnitude
         '''
         if ncols is None:
             ncols = nrows
@@ -414,12 +425,12 @@ class NMatrix(object):
         return NMatrix(Ainv)
     
     def inv_mod(self, q):
-        '''module inverse of matrix, algorithm 2
+        '''modular q inverse of matrix self, algorithm 2
         
            params q       int - in python 3,  a long that is the modulus
-           return the inverse modulus q of self as Nmatrix 
+           return the modular q inverse of self as Nmatrix 
            note.  this algorithm is stronger than "inv_mod0"; 
-                  it can resolve  [6,24,1|13,16,19|20,17,15]^-1 => [8,5,10|21,8,21|21,12,8](mod 26)
+                  this can resolve  [6,24,1|13,16,19|20,17,15]^-1 => [8,5,10|21,8,21|21,12,8](mod 26)
         '''
         l   = len(self)
         adj = NMatrix.zeros(l)
@@ -606,7 +617,7 @@ class NMatrix(object):
         return target
 
     def t(self):
-        '''mtrix transpose'''
+        '''matrix transpose'''
         result = []
         ndx = 0
         while ndx<self.shape[1]:

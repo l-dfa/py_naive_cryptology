@@ -1,10 +1,10 @@
 py_naive_cryptology
-====================
+=====================
 
-Experimenting algorithms about cryptography.
+Experimenting naive algorithms about cryptography, to study.
 
 This will be a collection of scripts to test algoritms about (de)encrypting
-with varios technics.
+with various technics.
 
 implemented cryptology algorithms
 -----------------------------------
@@ -36,7 +36,7 @@ In short, main methods are:
    import nmatrix as nm
    
    M  = nm.NMatrix(list_of_rows_each_as_list_of_numbers)   # create instance of matrix M by list of lists, one for each row
-   I  = nm.NMatrix.identity(nrows)                         # create identity matrix nrows x ncols
+   I  = nm.NMatrix.identity(nrows)                         # create identity matrix I with nrows x ncols
    Zs = nm.NMatrix.zeros(nrows, [ncols])                   # create matrix of zeroes nrows x ncols (or nrows x nrows if ncols is not indicated)
    R  = nm.NMatrix.random(nrows, [ncols], [rands])         # create a matrix of random numbers get from the list "rands"
    M.nrows                             # number of rows
@@ -56,16 +56,16 @@ In short, main methods are:
    A + B                               # sum of two matrices
    A - B                               # subtraction of two matrices
    A * B                               # multiplay of two matrices (remember: A*B != B*A)
-   A.inv()                             # inverse of square matrix A, if it exists
-   A / B                               # division of two matrices, with M = A * B^-1, if B has an inverse
+   A.inv()                             # inverse of square matrix A, if it exists (it's I == A * A**-1)
+   A / B                               # division of two matrices, with M = A * B**-1, if B has an inverse
    A + b                               # sum of scalar b for each element of matrix A (scalar must be right operand)
    A - b                               # difference of scalar b for each element of matrix A (scalar must be right operand)
    A * b                               # multiply of scalar b for each element of matrix A (scalar must be right operand)
    A / b                               # true division of scalar b for each element of matrix A (scalar must be right operand)
    A // b                              # floor division of scalar b for each element of matrix A (scalar must be right operand)
    A % b                               # modulus b for each element of matrix A (modulus must be right operand)
-   A.mod_inv(b)                        # modulus b inverse of matrix A
-   A.round(n)                          # round each element of A, by n positions
+   A.inv_mod(b)                        # modular b inversion of matrix A (it's A * (A**-1 mod b) == B mod b == I)
+   A.round(n)                          # round each element of A, by n precision
    A.t()                               # transpose of A
 
 
