@@ -57,7 +57,7 @@ In short, main methods are:
    A - B                               # subtraction of two matrices
    A * B                               # multiplay of two matrices (remember: A*B != B*A)
    A.inv()                             # inverse of square matrix A, if it exists (it's I == A * A**-1)
-   A / B                               # true division of two matrices, with M = A / B = A * B**-1, if B has an inverse
+   A / B                               # true division of two matrices, with A / B == A * B**-1, if B has an inverse
    A + b                               # sum of scalar b for each element of matrix A (scalar must be right operand)
    A - b                               # difference of scalar b for each element of matrix A (scalar must be right operand)
    A * b                               # multiply of scalar b for each element of matrix A (scalar must be right operand)
