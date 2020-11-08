@@ -27,6 +27,7 @@
 # import std libs
 import timeit as tm
 import secrets
+from numbers import Number
 
 
 def naive_invmod(a, p): 
@@ -76,9 +77,9 @@ def invmod(a, m):
         return x % m
 
 def are_affine(item, value):
-    '''test for numeric or lists'''
-    numerics = (int, float, )
-    if (  (isinstance(item, numerics) and isinstance(value, numerics))
+    '''test for number or lists'''
+    #numerics = (int, float, )
+    if (  (isinstance(item, Number) and isinstance(value, Number))
        or (isinstance(item, list) and isinstance(value, list))         ):
         return True
     else:
@@ -88,7 +89,7 @@ class NMatrix(object):
     '''a naive matrix
     
        instance data:
-         - __m__            list of lists - each row of the matrix is an inner list
+         - __m            list of lists - each row of the matrix is an inner list
          - shape            tuple of 2 int - (n.rows, ncols,)
     '''
     @classmethod
@@ -142,9 +143,6 @@ class NMatrix(object):
     def ncols(self):
         return self.shape[1]
 
-    def __eq__(self, M):
-        return self.__m__ == M._get_core()
-    
     def __init__(self, lol):
         '''init matrix instance
            params:
@@ -155,8 +153,11 @@ class NMatrix(object):
         for ndx in range(0, lr):
             if len(lol[ndx])!=lc:
                 raise ValueError('rows are of different lenghts')
-        self.__m__ = lol
+        self.__m = lol
         self.shape = (lr, lc,)
+    
+    def __eq__(self, M):
+        return self.__m == M._get_core()
     
     def __getitem__(self, key):
         '''access by indices
@@ -171,9 +172,9 @@ class NMatrix(object):
         '''
         if isinstance(key, tuple):
             x, y = key
-            return self.__m__[x][y]
+            return self.__m[x][y]
         else:
-            return self.__m__.__getitem__(key)
+            return self.__m.__getitem__(key)
 
     def __setitem__(self, key, value):
         '''write by indices
@@ -192,9 +193,9 @@ class NMatrix(object):
             raise ValueError("new value isn't affine to the old one")
         if isinstance(key, tuple):
             x, y = key
-            self.__m__[x][y] = value
+            self.__m[x][y] = value
         else:
-            self.__m__[key] = value
+            self.__m[key] = value
 
     def __str__(self):
         '''string representing matrix'''
@@ -203,7 +204,7 @@ class NMatrix(object):
         result = '['
         for ndx in range(0, self.nrows):
             if ndx > 0: result += ' '
-            result += str(self.__m__[ndx])
+            result += str(self.__m[ndx])
             if ndx < (self.nrows - 1): result += ',\n'
         result += ']'
         return result
@@ -228,7 +229,7 @@ class NMatrix(object):
         else:
             target = self.copy()
         for ndx in range(0, target.nrows):
-            target[ndx] = [x+y for x,y in zip(target.__m__[ndx], nm.getr(ndx))]
+            target[ndx] = [x+y for x,y in zip(target.__m[ndx], nm.getr(ndx))]
         return target
         
     def __sub__(self, nm, inplace=False):
@@ -251,7 +252,7 @@ class NMatrix(object):
         else:
             target = self.copy()
         for ndx in range(0, target.nrows):
-            target[ndx] = [x-y for x,y in zip(target.__m__[ndx], nm.getr(ndx))]
+            target[ndx] = [x-y for x,y in zip(target.__m[ndx], nm.getr(ndx))]
         return target
         
     def __mul__(self, nm, inplace=False):
@@ -275,7 +276,7 @@ class NMatrix(object):
             row = []
             nc_right = 0
             while nc_right<nm.ncols:
-                tmp = [x*y for x, y in zip(self.__m__[nr_left], nm.getc(nc_right))]
+                tmp = [x*y for x, y in zip(self.__m[nr_left], nm.getc(nc_right))]
                 elem = sum(tmp)
                 row.append(elem)
                 nc_right += 1
@@ -306,11 +307,11 @@ class NMatrix(object):
     
     def _get_core(self):
         '''return the matrix core element'''
-        return self.__m__
+        return self.__m
     
     def as_list_of_lists(self):
         '''return the matrix as a list of lists, each inner list is a row'''
-        return self.__m__.copy()
+        return self.__m.copy()
     
     def copy(self):
         '''return a copy of the matrix'''
@@ -456,7 +457,7 @@ class NMatrix(object):
         n = len(self)
         aug = []
         for ndx in range(0, n):
-            row = self.__m__[ndx][:]
+            row = self.__m[ndx][:]
             row.extend([0] * n)
             row[n+ndx] = 1
             aug.append(row)
@@ -547,8 +548,7 @@ class NMatrix(object):
         for ndx in range(0, target.nrows):
             target[ndx] = [round(item, ndigits=ndigits) for item in target[ndx]]
         return target
-        
-        
+
     def s_mul(self, n, inplace=False):
         '''scalar multiply by number
            
@@ -635,7 +635,7 @@ class NMatrix(object):
         '''get column by index'''
         if ndx >= self.ncols:
             raise IndexError('index out of matrix dimension')
-        column = [row[ndx] for row in self.__m__]
+        column = [row[ndx] for row in self.__m]
         return column
 
     def setr(self, nrow, lnums):
