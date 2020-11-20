@@ -18,10 +18,13 @@ implemented cryptology algorithms
    ciphertext = hill.encrypt(plaintext, keymatrix)
    plaintext  = hill.decrypt(ciphertext, keymatrix)
 
+**DES** cipher. It is in module `des.py`. To use it, see `main()` in module
+
+
 nbitarray.py
 --------------
 
-Naive pure python module to andle an array of bits
+Naive pure python module to handle an array of bits
 
 Main methods are:
 
