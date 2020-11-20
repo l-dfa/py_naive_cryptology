@@ -411,17 +411,6 @@ def main():
     p = encrypt(c.hex(asint=True), cipherkey, reverse=True)
     print(' plain hex text is: {}'.format(p.hex()))
     
-    
-
-    def test_decrypt(self):
-        #print()
-        c = des.encrypt([0xc0,0xb7,0xa8,0xd0,0x5f,0x3a,0x82,0x9c,],
-                        [0xaa,0xbb,0x09,0x18,0x27,0x36,0xcc,0xdd,],
-                        reverse=True,
-                        verbose=False )                                # set this True to print intermediate results
-        t = nba.NBitArray([0x12,0x34,0x56,0xab,0xcd,0x13,0x25,0x36,])
-        self.assertEqual(c, t)
-
 
 if __name__ == '__main__':
     main()

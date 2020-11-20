@@ -47,7 +47,7 @@ Main methods are:
    ba.set_byte(x, bit_ndx|byte_ndx=, lenght=)  # set x as one byte at indicated position for the indicated length in bits
    ba.permutate(permutation_table)  # return a permutated NBitArray obeying to the given permutation table. ...
                                     #  ... permutation table is a list of integers where index indicate the position of the output bit ...
-                                    #  ... and value at the indes is the position of the input bit.
+                                    #  ... and value at the index is the position of the input bit.
    ba.bit_list()              # return the bit array content as a list of integers with values 0|1
    ba.hex()                   # return the bit array content as a string of hex numbers
    ba.swap_lr()               # return an NBitArray with left and right halves inverted. len(ba) must be even
