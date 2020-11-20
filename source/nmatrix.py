@@ -25,9 +25,13 @@
 #   - python unit_tests.py
 
 # import std libs
-import timeit as tm
+#import timeit as tm
 import secrets
 from numbers import Number
+
+# import 3rd parties libs
+
+# import user libs
 
 
 def naive_invmod(a, p): 

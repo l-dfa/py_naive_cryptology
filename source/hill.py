@@ -1,10 +1,10 @@
 # :filename: hill.py hill cipher
 
+# import user libs
 try:
     import nmatrix as nm
 except:
     import source.nmatrix as nm
-import sys
 
 #            123123123123   4*3
 plaintext = "paymoremoney"

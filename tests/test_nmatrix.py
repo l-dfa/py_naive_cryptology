@@ -9,6 +9,13 @@ import unittest
 
 # import 3rd parties libs
 
+# import project's libs
+# we need to add the project directory to pythonpath to find project's module(s) in development PC without installing it
+basedir, _ = os.path.split(os.path.abspath(os.path.dirname(__file__)).replace('\\', '/'))
+sys.path.insert(1, basedir)              # ndx==1 because 0 is reserved for local directory
+import source.nmatrix as nm              # NOW we find nmatrix module if we import it
+
+
 class OtherTests(unittest.TestCase):
 
     def test_are_affine(self):
@@ -37,7 +44,7 @@ class OtherTests(unittest.TestCase):
         with self.assertRaises(ValueError):   # inverse of a wrong number
             x = nm.invmod(13, 13)
 
-class NMatrixTest(unittest.TestCase):
+class NMatrixTests(unittest.TestCase):
     '''testing NMAtrix'''
     
     def setUp(self):
@@ -315,30 +322,8 @@ class NMatrixTest(unittest.TestCase):
         A = nm.NMatrix([[1,2,3,4,1],[8,5,6,7,2],[9,12,10,11,3],[13,14,16,15,4],[10,8,6,4,2]])
         self.assertEqual(A.det(), -240)
 
-class HillTest(unittest.TestCase):
-    def setUp(self):
-        self.plaintext = "ACT"
-        self.key = nm.NMatrix([[6,24,1],[13,16,10],[20,17,15]])
-        self.ciphertext = "POH"
-        
-    def tearDown(self):
-        pass
-    
-    def test_encrypt(self):
-        ciphertext = hill.encrypt(self.plaintext, self.key)
-        self.assertEqual(ciphertext, self.ciphertext)
-        
-    def test_decrypt(self):
-        plaintext  = hill.decrypt(self.ciphertext, self.key)
-        self.assertEqual(plaintext, self.plaintext)
-
 
 if __name__ == '__main__':
-    # we need to add the project directory to pythonpath to find covid module in development PC without installing it
-    basedir, _ = os.path.split(os.path.abspath(os.path.dirname(__file__)).replace('\\', '/'))
-    sys.path.insert(1, basedir)              # ndx==1 because 0 is reserved for local directory
-    import source.nmatrix as nm              # NOW we find nmatrix module if we import it
-    import source.hill    as hill            # as abos, about hill.py
     unittest.main()
 
 
