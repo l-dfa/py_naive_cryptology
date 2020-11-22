@@ -32,8 +32,8 @@ Main methods are:
 
    import nbitarray as nba
    
-   ba = nba.NBitArray(list_of_hex)    # create istance
-   bb = nba.NBitArray(list_of_bits)   # create istance
+   ba = nba.NBitArray(list_of_hex)    # create instance
+   bb = nba.NBitArray(list_of_bits)   # create instance
    len(ba)                    # number of bits
    ba[ndx]                    # bit at index ndx
    ba[ndx] = bit_as_integer   # set bit at index ndx

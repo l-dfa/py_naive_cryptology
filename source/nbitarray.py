@@ -1,4 +1,28 @@
-# :filename: nbuffer.py         a naive buffer
+# :filename: nbitarray.py         a naive buffer
+#
+# main methods:
+#
+#   import nbitarray as nba
+#   
+#   ba = nba.NBitArray(list_of_hex)    # create instance
+#   bb = nba.NBitArray(list_of_bits)   # create instance
+#   len(ba)                    # number of bits
+#   ba[ndx]                    # bit at index ndx
+#   ba[ndx] = bit_as_integer   # set bit at index ndx
+#   ba == bb                   # eq operator
+#   str(ba)                    # string of bits
+#   ba + bb                    # concatenation operator
+#   ba ^ bb                    # xor operator (ba and bb of the same length)
+#   ba << n                    # left shift, note: ba.__lshift__(n, circular=True) does a circular left shift
+#   ba >> n                    # right shift, note: ba.__rshift__(n, circular=True) does a circular right shift
+#   ba.get_byte(bit_ndx|byte_ndx=)  # return one byte as integer from indicated position
+#   ba.set_byte(x, bit_ndx|byte_ndx=, lenght=)  # set x as one byte at indicated position for the indicated length in bits
+#   ba.permutate(permutation_table)  # return a permutated NBitArray obeying to the given permutation table. ...
+#                                    #  ... permutation table is a list of integers where index indicate the position of the output bit ...
+#                                    #  ... and value at the index is the position of the input bit.
+#   ba.bit_list()              # return the bit array content as a list of integers with values 0|1
+#   ba.hex()                   # return the bit array content as a string of hex numbers
+#   ba.swap_lr()               # return an NBitArray with left and right halves inverted. len(ba) must be even
 
 # import std libs
 import sys
