@@ -206,18 +206,19 @@ class NBitArray(object):
             raise TypeError
         bl = self.bit_list()
         for n in range(0, num):
-            abit = bl.pop(0)
+            abit = bl.pop(0)                # the 1st element (on the left)
             abit = abit if circular else 0
             bl.append(abit)
         return NBitArray(bl)
 
-    def __rshift__(self, num):
+    def __rshift__(self, num, circular=False):
         if type(num) != int:
             raise TypeError
         bl = self.bit_list()
         for n in range(0, num):
-            bl.pop()
-            bl.insert(0, 0)
+            abit = bl.pop()                  # the last element
+            abit = abit if circular else 0
+            bl.insert(0, abit)
         return NBitArray(bl)
     
     def get_byte(self, bit_ndx=None, byte_ndx=None):

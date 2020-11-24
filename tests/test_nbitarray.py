@@ -168,11 +168,19 @@ class NBitArrayTests(unittest.TestCase):
         bb = ba << 1
         self.assertEqual(bb.get_byte(byte_ndx=0), 0x1e)
         self.assertEqual(bb.get_byte(byte_ndx=1), 0x1e)
+        ba = nba.NBitArray([0x8f, 0x0f])
+        bb = ba.__lshift__(1, circular=True)
+        self.assertEqual(bb.get_byte(byte_ndx=0), 0x1e)
+        self.assertEqual(bb.get_byte(byte_ndx=1), 0x1f)
 
     def test_rshift(self):
         ba = nba.NBitArray([0x0f, 0x0f])
         bb = ba >> 1
         self.assertEqual(bb.get_byte(byte_ndx=0), 0x07)
+        self.assertEqual(bb.get_byte(byte_ndx=1), 0x87)
+        ba = nba.NBitArray([0x8f, 0x0f])
+        bb = ba.__rshift__(1, circular=True)
+        self.assertEqual(bb.get_byte(byte_ndx=0), 0xc7)
         self.assertEqual(bb.get_byte(byte_ndx=1), 0x87)
 
     def test_hex(self):
