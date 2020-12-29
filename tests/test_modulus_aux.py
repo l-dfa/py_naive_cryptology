@@ -1,7 +1,6 @@
 # :filename: tests/test_modulus_aux.py
 # to use: "cd tests; python test_modulus_aux.py"
 
-
 # import std libs
 import os
 import sys
@@ -11,6 +10,7 @@ import statistics as stat
 # import 3rd parties libs
 
 # import project's libs
+
 # we need to add the project directory to pythonpath to find project's module(s) in development PC without installing it
 basedir, _ = os.path.split(os.path.abspath(os.path.dirname(__file__)).replace('\\', '/'))
 sys.path.insert(1, basedir)              # ndx==1 because 0 is reserved for local directory
