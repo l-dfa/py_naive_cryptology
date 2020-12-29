@@ -1,7 +1,7 @@
 py_naive_cryptology
 =====================
 
-Experimenting naive algorithms about cryptography, to study.
+Experimenting naive algorithms about cryptography, as a method to study them.
 
 This will be a collection of scripts to test algoritms about (de)encrypting
 with various technics.
