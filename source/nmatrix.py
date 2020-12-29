@@ -20,9 +20,8 @@
 #                       [e20,e21]]
 #   - scalar operations: s_add, s_sub, s_mul, s_div, s_mod
 # to do unit tests:
-#   - venv\Scripts\Activate
 #   - cd tests
-#   - python unit_tests.py
+#   - python test_nmatrix.py
 
 # import std libs
 #import timeit as tm
@@ -32,53 +31,12 @@ from numbers import Number
 # import 3rd parties libs
 
 # import user libs
+try:
+    import modulus_aux as ma
+except:
+    import source.modulus_aux as ma
 
 
-def naive_invmod(a, p): 
-    '''modular multiplicative inverse of "a" (mod p), naive approach
-       
-       parameters
-         - a            int - numer to inverse
-         - p            int - modulus
-       return mod.mult.inv. as int, if exists, else it raises ValueError
-       note: derived from https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/
-    '''
-    a = a % p; 
-    for x in range(1, p) : 
-        if ((a * x) % p == 1) : 
-            return x 
-    raise ValueError(f"{a} doesn't have an inverse under modulo {p}")
-
-def egcd(a, b):
-    '''extended euclidean algorithm (extended greatest common divisor)
-    
-    params: a, b     int - 
-    returns (g, x, y,)
-    note. remember ax+by = gcd(a, b)
-    '''
-    if a == 0:
-        return (b, 0, 1)
-    else:
-        g, y, x = egcd(b % a, a)
-        return (g, x - (b // a) * y, y)
-
-def invmod(a, m):
-    '''modular multiplicative inverse of "a" (mod m), using egcd
-    
-    parameters
-      - a        int - number to invert
-      - m        int - modulus
-    return a^-1(mod m)        an int - if it exists
-           raise valueError if it doesn't exist
-    note. remember: a * x ≡ 1 (mod m); where x is the modular multiplicative inverse of a
-    '''
-    if a < 0:
-        a = a % m
-    g, x, y = egcd(a, m)
-    if g != 1:
-        raise ValueError(f"{a} doesn't have an inverse under modulo {m}")
-    else:
-        return x % m
 
 def are_affine(item, value):
     '''test for number or lists'''
@@ -413,7 +371,7 @@ class NMatrix(object):
             #    Ainv.swapr(i, n, inplace=True)
             a = A[i, i]
             try:
-                factor = invmod(a, q)
+                factor = ma.invmod(a, q)
             except ValueError:
                 pass
             if factor is None:
@@ -442,7 +400,7 @@ class NMatrix(object):
         for i in range(0, l):
           for j in range(0, l):
             adj[i, j] = ((-1)**(i+j) * int(round(self.minor(j, i).det()))) % q
-        result = adj.s_mul(invmod(int(round(self.det())), q)).s_mod(q)
+        result = adj.s_mul(ma.invmod(int(round(self.det())), q)).s_mod(q)
         return result
 
     def inv(self):
@@ -522,7 +480,7 @@ class NMatrix(object):
             for key, val in col.items():
                 m = 0
                 try:
-                    m = invmod(val, mod)
+                    m = ma.invmod(val, mod)
                     themax = val
                     ndxmax = key
                 except ValueError:

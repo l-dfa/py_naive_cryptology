@@ -9,6 +9,8 @@ with various technics.
 implemented cryptology algorithms
 -----------------------------------
 
+**DES** cipher. It is in module `des.py`. To use it, see `main()` in module
+
 **Hill** cipher. It is in module `hill.py`. To use it:
 
 .. code:: python
@@ -18,15 +20,31 @@ implemented cryptology algorithms
    ciphertext = hill.encrypt(plaintext, keymatrix)
    plaintext  = hill.decrypt(ciphertext, keymatrix)
 
-**DES** cipher. It is in module `des.py`. To use it, see `main()` in module
 
+modulus_aux.py
+-----------------
+
+A module with auxiliary modulus functions
+
+Main functions are:
+
+.. code:: python
+
+   import modulus_aux as ma
+
+   ma.lcg([seed])                  # pseudorandom numbers using a Linear Congruential Generator;
+                                   #    attention: this returns a python generator, call "next" to get the number
+   ma.equiv_list(m,[a],[max_q])    # members of an equivalence class of remainders
+   ma.naive_invmod(a, m)           # inverse modulus, naive version
+   ma.egcd(a, b)                   # extended euclidean algorithm (extended greatest common divisor)
+   ma.invmod(a, m)                 # inverse modulus
 
 nbitarray.py
 --------------
 
-Naive pure python module to handle an array of bits
+Naive pure python module to handle an array of bits.
 
-Main methods are:
+It implements the class NBitArray. Its main methods are:
 
 .. code:: python
 
@@ -34,16 +52,16 @@ Main methods are:
    
    ba = nba.NBitArray(list_of_hex)    # create instance
    bb = nba.NBitArray(list_of_bits)   # create instance
-   len(ba)                    # number of bits
-   ba[ndx]                    # bit at index ndx
-   ba[ndx] = bit_as_integer   # set bit at index ndx
-   ba == bb                   # eq operator
-   str(ba)                    # string of bits
-   ba + bb                    # concatenation operator
-   ba ^ bb                    # xor operator (ba and bb of the same length)
-   ba << n                    # left shift, note: ba.__lshift__(n, circular=True) does a circular left shift
-   ba >> n                    # right shift, note: ba.__rshift__(n, circular=True) does a circular right shift
-   ba.get_byte(bit_ndx|byte_ndx=)  # return one byte as integer from indicated position
+   len(ba)                            # number of bits
+   ba[ndx]                            # bit at index ndx
+   ba[ndx] = bit_as_integer           # set bit at index ndx
+   ba == bb                           # eq operator
+   str(ba)                            # string of bits
+   ba + bb                            # concatenation operator
+   ba ^ bb                            # xor operator (ba and bb have the same length)
+   ba << n                            # left shift, note: ba.__lshift__(n, circular=True) does a circular left shift
+   ba >> n                            # right shift, note: ba.__rshift__(n, circular=True) does a circular right shift
+   ba.get_byte(bit_ndx|byte_ndx=)     # return one byte as integer from indicated position
    ba.set_byte(x, bit_ndx|byte_ndx=, lenght=)  # set x as one byte at indicated position for the indicated length in bits
    ba.permutate(permutation_table)  # return a permutated NBitArray obeying to the given permutation table. ...
                                     #  ... permutation table is a list of integers where index indicate the position of the output bit ...

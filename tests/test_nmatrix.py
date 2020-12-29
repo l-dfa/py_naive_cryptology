@@ -1,5 +1,5 @@
-# :filename: tests/unit_tests.py
-# to use: "cd tests; python unit_tests.py"
+# :filename: tests/test_nmatrix.py
+# to use: "cd tests; python test_nmatrix.py"
 
 
 # import std libs
@@ -24,25 +24,6 @@ class OtherTests(unittest.TestCase):
         self.assertTrue(nm.are_affine([3, 4], [3.0, 4.0]))
         self.assertFalse(nm.are_affine(2, [3.0, 4.0]))
         
-    def test_naive_invmod(self):
-        i = nm.naive_invmod(3,11)
-        self.assertEqual(i, 4)
-        i = nm.naive_invmod(-3,11)
-        self.assertEqual(i, 7)
-        #i = nm.inv_mod(6, 26)
-        #self.assertEqual(i, 7)
-        with self.assertRaises(ValueError):   # inverse of a wrong number
-            max = 13
-            for n in range(1,max+1):
-                x = nm.naive_invmod(n,max)
-    
-    def test_invmod(self):
-        x = nm.invmod(3, 11)
-        self.assertEqual(x, 4)
-        #x = nm.modinv(6, 26)
-        #self.assertEqual(x, 7)
-        with self.assertRaises(ValueError):   # inverse of a wrong number
-            x = nm.invmod(13, 13)
 
 class NMatrixTests(unittest.TestCase):
     '''testing NMAtrix'''

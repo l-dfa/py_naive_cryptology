@@ -1,5 +1,5 @@
-# :filename: tests/unit_tests.py
-# to use: "cd tests; python unit_tests.py"
+# :filename: tests/test_hill.py
+# to use: "cd tests; python test_hill.py"
 
 
 # import std libs
