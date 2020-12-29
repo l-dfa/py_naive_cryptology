@@ -6,12 +6,6 @@ try:
 except:
     import source.nmatrix as nm
 
-#            123123123123   4*3
-plaintext = "paymoremoney"
-key = nm.NMatrix([[17, 17,  5],
-                  [21, 18, 21],
-                  [ 2,  2, 19],
-                 ])
 #alphabet = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4,
 #             'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9,
 #             'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14,
@@ -21,11 +15,11 @@ key = nm.NMatrix([[17, 17,  5],
 #plaintext = "ACT"
 #key = nm.NMatrix([[6,24,1],[13,16,10],[20,17,15]])
 
-def get_key(d, val):
-    for k, v in d.items():
-        if v == val:
-            return k
-    raise ValueError('value not present')
+#def get_key(d, val):
+#    for k, v in d.items():
+#        if v == val:
+#            return k
+#    raise ValueError('value not present')
 
 def encrypt(plain, key):
     '''hill encrypt of plaintext to ciphertext
@@ -143,14 +137,23 @@ def decrypt_num(nc, key, mod):
     return numeric_p
 
 def main():
-    ciphertext = encrypt(plaintext, key)
-    invkey = key.inv_mod(ord("Z")-ord("A")+1)
-    ptext      = decrypt(ciphertext, key)
-    ptext = ptext.lower()
+    #            123123123123   4*3
+    plaintext = "paymoremoney"
+    key = nm.NMatrix([[17, 17,  5],
+                      [21, 18, 21],
+                      [ 2,  2, 19],
+                     ])
     print(f'plaintext: {plaintext}')
     print(f'key: {key}')
+
+    ciphertext = encrypt(plaintext, key)
     print(f'ciphertext: {ciphertext}')
+    
+    invkey = key.inv_mod(ord("Z")-ord("A")+1)
     print(f'key^-1: {invkey}')
+    
+    ptext      = decrypt(ciphertext, key)
+    ptext = ptext.lower()
     print(f'calculated plaintext: {ptext}')
     
     
