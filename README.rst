@@ -9,35 +9,37 @@ with various technics.
 implemented cryptology algorithms
 -----------------------------------
 
-**DES** cipher. It is in module `des.py`. To use it, see `main()` in module
+Schoolbook **RSA** cipher. It in in module `schoolbook_rsa.py`. To use it, see `main()` in module.
 
-**Hill** cipher. It is in module `hill.py`. To use it:
+**DES** cipher. It is in module `des.py`. To use it, see `main()` in module.
 
-.. code:: python
+**Hill** cipher. It is in module `hill.py`.  To use it, see `main()` in module.
 
-   import hill as hill
-   
-   ciphertext = hill.encrypt(plaintext, keymatrix)
-   plaintext  = hill.decrypt(ciphertext, keymatrix)
-
-
-modulus_aux.py
+numbers_ops.py
 -----------------
 
-A module with auxiliary modulus functions
+A module with auxiliary modulus functions, and others.
 
 Main functions are:
 
 .. code:: python
 
-   import modulus_aux as ma
-
-   ma.lcg([seed])                  # pseudorandom numbers using a Linear Congruential Generator;
-                                   #    attention: this returns a python generator, call "next" to get the number
-   ma.equiv_list(m,[a],[max_q])    # members of an equivalence class of remainders
-   ma.naive_invmod(a, m)           # inverse modulus, naive version
-   ma.egcd(a, b)                   # extended euclidean algorithm (extended greatest common divisor)
-   ma.invmod(a, m)                 # inverse modulus
+   import numbers_ops as nops
+   
+   nops.coprimes_gen(n,[min])            # coprime numbers (python) GENERATOR
+   nops.coprimes(n,[min])                # list of coprime numbers
+   nops.generate_prime_number([length])  # random generator of a single prime number
+   nops.primes_gen([min],[max])          # prime numbers (python) GENERATOR
+   nops.primes([min],[max])              # list of prime numbers
+   nops.lcm(a,b)                         # least (or lowest) common multiple
+   nops.gcd(a,b)                         # greatest common divisor
+   nops.is_prime(n)                      # primality test
+   nops.is_prime_mr(n)                   # Miller-Rabin: statistically primality test 
+   nops.lcg([seed])                      # pseudorandom numbers using a Linear Congruential (python) GENERATOR
+   nops.equiv_list(m,[a],[max_q])        # list of members of an equivalence class of remainders
+   nops.naive_invmod(a, m)               # inverse modulus, naive version
+   nops.egcd(a, b)                       # extended euclidean algorithm (extended greatest common divisor)
+   nops.invmod(a, m)                     # inverse modulus
 
 nbitarray.py
 --------------

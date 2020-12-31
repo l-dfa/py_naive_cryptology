@@ -5,16 +5,18 @@
 #   from errors of content or due to its use
 #
 # functions:
+#     - coprimes_gen           coprime numbers (python) GENERATOR
+#     - coprimes               list of coprime numbers
 #     - generate_prime_number  random generator of a single prime number
-#     - primes_gen             prime numbers generator
+#     - primes_gen             prime numbers (python) GENERATOR
 #     - primes                 list of prime numbers
 #     - lcm                    least (or lowest) common multiple
 #     - gcd                    greatest common divisor
 #     - is_prime               primality test
 #     - is_prime_mr            Miller-Rabin: statistically primality test 
-#     - lcg                    pseudorandom numbers using a Linear Congruential Generator;
+#     - lcg                    pseudorandom numbers using a Linear Congruential (python) GENERATOR;
 #                                  attention: this returns a python generator, call "next" to get the number
-#     - equiv_list             members of an equivalence class of remainders
+#     - equiv_list             list of members of an equivalence class of remainders
 #     - naive_invmod           inverse modulus, naive version
 #     - egcd                   extended euclidean algorithm (extended greatest common divisor)
 #     - invmod                 inverse modulus
