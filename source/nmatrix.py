@@ -32,9 +32,9 @@ from numbers import Number
 
 # import user libs
 try:
-    import modulus_aux as ma
+    import numbers_ops as nops
 except:
-    import source.modulus_aux as ma
+    import source.numbers_ops as nops
 
 
 
@@ -371,7 +371,7 @@ class NMatrix(object):
             #    Ainv.swapr(i, n, inplace=True)
             a = A[i, i]
             try:
-                factor = ma.invmod(a, q)
+                factor = nops.invmod(a, q)
             except ValueError:
                 pass
             if factor is None:
@@ -400,7 +400,7 @@ class NMatrix(object):
         for i in range(0, l):
           for j in range(0, l):
             adj[i, j] = ((-1)**(i+j) * int(round(self.minor(j, i).det()))) % q
-        result = adj.s_mul(ma.invmod(int(round(self.det())), q)).s_mod(q)
+        result = adj.s_mul(nops.invmod(int(round(self.det())), q)).s_mod(q)
         return result
 
     def inv(self):
@@ -480,7 +480,7 @@ class NMatrix(object):
             for key, val in col.items():
                 m = 0
                 try:
-                    m = ma.invmod(val, mod)
+                    m = nops.invmod(val, mod)
                     themax = val
                     ndxmax = key
                 except ValueError:
