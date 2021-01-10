@@ -21,8 +21,11 @@
 #                                    #  ... permutation table is a list of integers where index indicate the position of the output bit ...
 #                                    #  ... and value at the index is the position of the input bit.
 #   ba.bit_list()              # return the bit array content as a list of integers with values 0|1
-#   ba.hex()                   # return the bit array content as a string of hex numbers
-#   ba.swap_lr()               # return an NBitArray with left and right halves inverted. len(ba) must be even
+#   ba.hex(asint=)            # return the bit array content as a string of hex numbers, or list of ints (an int for each byte)
+#   ba.to_int()                # return nbitarray as (single) integer
+#   ba.swap_lr()               # return a new NBitArray with left and right halves inverted. len(ba) must be even
+#   ba.padding(md=)           # return a new NBitArray padded to "md" module (default 512)
+#   ba.break_to_list(el=)     # break instance in a list of nbitarray elements, each element with length "el" (default 32) bits; return the list
 
 # import std libs
 import sys
@@ -87,6 +90,18 @@ def is_bit_list(l):
         return False
     return True
 
+def is_bit_string(l):
+    '''true if argument is a string with 0|1 only, otherwise false'''
+    if isinstance(l, str):
+        for ndx in range(0, len(l)):
+            if l[ndx] == '0' or l[ndx] == '1':
+                continue
+            else:
+                return False
+    else:
+        return False
+    return True
+
 def int_to_bit_list(v, length=None):
     '''from integer to list of bits
     
@@ -103,7 +118,9 @@ def int_to_bit_list(v, length=None):
         fmt_str = '{:0>' + str(length) + 'b}'
     return [int(item) for item in list(fmt_str.format(v))]
 
-    
+def str_to_bit_list(s):
+    return [int(item) for item in list(s)]
+
 class NBitArray(object):
     '''
          - nbits     int - num of valid bits in array
@@ -134,6 +151,8 @@ class NBitArray(object):
                             int - number of 0s bits to hold
                             others - passed to bytearray
         '''
+        if is_bit_string(bits):
+            bits = str_to_bit_list(bits)
         if is_bit_list(bits):
             self.length = len(bits)
             nbytes, overflow = divmod(self.length, self.elem_size)
@@ -186,6 +205,7 @@ class NBitArray(object):
         return '0b' + result
     
     def __add__(self, other):
+        '''concatenation'''
         result = NBitArray(len(self)+len(other))
         target_ndx = 0
         for ndx in range(0, len(self)):
@@ -278,6 +298,7 @@ class NBitArray(object):
         return [self[ndx] for ndx in range(0, len(self))]
     
     def hex(self, asint=False):
+        '''shows as string of hexs or list of ints bytes'''
         step = BYTE_SIZE
         tail_len = len(self) % step
         result = [self.get_byte(bit_ndx=ndx) for ndx in range(0,len(self),step) if (ndx+step)<=len(self)]
@@ -290,15 +311,70 @@ class NBitArray(object):
                 result.append(self[-tail_len:].bit_list())
         return result
     
+    def to_int(self):
+        '''to integer'''
+        l = len(self)
+        result = 0
+        for ndx in range(0, l):
+            result += self[ndx] << (l-ndx-1)
+        return result
+    
     def swap_lr(self):
+        '''swap left and right parts'''
         if len(self) % 2:
             raise TypeError
         left  = self[:len(self)//2]
         right = self[len(self)//2:]
         return right + left
 
+    def padding(self, md=512):
+        '''padding the nbitArray as a message multiple of md bits
+        
+        params md         int - module in bits, usually 512 bits
+        
+        return nbitarray padded, its lenght is a multiple of md
+        
+        note padding scheme is:
+                -        msg                           len(msg) == l bits
+                - + bit  1                             len(1)   == 1 bit
+                - + bits 000...0                       len(000...0)   == k bits
+                - + int  len(msg)                      size(len(msg)) == 64 bits
+              hence k = (512 - 64 - 1 - l) mod 512
+        '''
+        l = len(self)
+        l2 = NBitArray(l.to_bytes(8,'big'))   # int l as 64 bits (8 bytes)
+        k = (md - 64 - 1 - l) % md
+        tail = [1]
+        tail.extend([0] * k)
+        tail = NBitArray(tail)
+        return self + tail + l2
+    
+    def break_to_list(self, el=32):
+        '''break istance in list of (nbitarray) elements, each of el bits
+        
+        params el          int - element length in bits
+        
+        return a list of nbitarray elements; each element with length el bits
+        '''
+        if len(self) % el != 0:
+            raise ValueError('instance length is not a multiple of element length')
+        steps = len(self) // el
+        result = []
+        for step in range(steps):
+            startbit = step * el
+            stopbit  = (step + 1) * el
+            element = NBitArray([self[ndx] for ndx in range(startbit, stopbit)])
+            result.append(element)
+        return result
+        
+
 def main():
-    pass
+    ba = NBitArray('1111000011110000')
+    l = ba.break_to_list(el=4)
+    print(len(l))
+    for e in l:
+        print(e)
+    
 
 if __name__ == '__main__':
     main()

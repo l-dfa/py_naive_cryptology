@@ -3,7 +3,7 @@
 # documented by https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Operation
 #
 # steps: key generation
-#        key distribution
+#        key distribution (not here)
 #        encryption
 #        decription
 
@@ -16,7 +16,7 @@ except:
 
 
 def keys(prime_len=10, p=None, q=None):
-    '''
+    '''RSA keys generation
        args
            - prime_len      int - length in bits of random primes to generate
            - p, q           int - two prime numbers

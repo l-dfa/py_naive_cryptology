@@ -9,11 +9,12 @@ with various technics.
 implemented cryptology algorithms
 -----------------------------------
 
-Schoolbook **RSA** cipher. It in in module `schoolbook_rsa.py`. To use it, see `main()` in module.
+* **SHA-1** encoder; it is in module `sha1.py`;
+* Schoolbook **RSA** cipher; it is in module `schoolbook_rsa.py`;
+* **DES** cipher; it is in module `des.py`;
+* **Hill** cipher; it is in module `hill.py`.
 
-**DES** cipher. It is in module `des.py`. To use it, see `main()` in module.
-
-**Hill** cipher. It is in module `hill.py`.  To use it, see `main()` in module.
+To use these modules, see `main()` in each module.
 
 numbers_ops.py
 -----------------
@@ -69,8 +70,11 @@ It implements the class NBitArray. Its main methods are:
                                     #  ... permutation table is a list of integers where index indicate the position of the output bit ...
                                     #  ... and value at the index is the position of the input bit.
    ba.bit_list()              # return the bit array content as a list of integers with values 0|1
-   ba.hex()                   # return the bit array content as a string of hex numbers
+   ba.hex(asint=)            # return the bit array content as a string of hex numbers, or list of ints (an int for each byte)
+   ba.to_int()                # return nbitarray as (single) integer
    ba.swap_lr()               # return an NBitArray with left and right halves inverted. len(ba) must be even
+   ba.padding(md=)           # return a new NBitArray padded to "md" module (default 512)
+   ba.break_to_list(el=)     # break instance in a list of nbitarray elements, each element with length "el" (default 32) bits; return the list
    
 nmatrix.py
 -----------

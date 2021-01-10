@@ -1,5 +1,5 @@
-# :filename: tests/test_rsa.py
-# to use: "cd tests; python test_rsa.py"
+# :filename: tests/test_schoolbook_rsa.py
+# to use: "cd tests; python test_schoolbook_rsa.py"
 
 # import std libs
 import os

@@ -48,6 +48,12 @@ class OtherTests(unittest.TestCase):
         self.assertTrue(nba.is_bit_list(bits))
         nobits = [0, 2, 1, 0]
         self.assertFalse(nba.is_bit_list(nobits))
+
+    def test_is_bit_string(self):
+        bits = '0110'
+        self.assertTrue(nba.is_bit_string(bits))
+        nobits = '0210'
+        self.assertFalse(nba.is_bit_list(nobits))
     
     def test_int_to_bit_list(self):
         l = nba.int_to_bit_list(10)
@@ -55,6 +61,10 @@ class OtherTests(unittest.TestCase):
         l = nba.int_to_bit_list(10, length=8)
         self.assertEqual(l, [0,0,0,0,1,0,1,0,])
     
+    def test_str_to_bit_list(self):
+        l = nba.str_to_bit_list('10')
+        self.assertEqual(l, [1,0,])
+
 
 class NBitArrayTests(unittest.TestCase):
     '''testing NBitArray'''
@@ -74,6 +84,8 @@ class NBitArrayTests(unittest.TestCase):
         self.assertEqual(ba.bytes_size, 1)
     
     def test_init(self):
+        ba = nba.NBitArray('011')
+        self.assertEqual(len(ba), 3)   # these are 3 bits
         ba = nba.NBitArray([0,1,1,])
         self.assertEqual(len(ba), 3)   # these are 3 bits
         ba = nba.NBitArray(5)          # and these are 5
@@ -189,11 +201,37 @@ class NBitArrayTests(unittest.TestCase):
         ba = nba.NBitArray([0,0,0,0,1,1,1,1,1,1,1,1,])
         s = ba.hex()
         self.assertEqual(s, '0f:1111')
+        ba = nba.NBitArray([0xff,])
+        s = ba.hex(asint=True)
+        self.assertEqual(s.pop(), 255)
+        ba = nba.NBitArray([0xff,0xff])
+        s = ba.hex()
+        self.assertEqual(s, 'ffff')
+        s = ba.hex(asint=True)
+        self.assertEqual(s, [255, 255])
+    
+    def test_to_int(self):
+        ba = nba.NBitArray([0xff,])
+        self.assertEqual(ba.to_int(), 255)
+        ba = nba.NBitArray([0xff, 0xff])
+        self.assertEqual(ba.to_int(), 65535)
     
     def test_swap_lr(self):
         ba = nba.NBitArray([0x0f, 0xf0])
         swapped = ba.swap_lr()
         self.assertEqual(swapped.get_byte(byte_ndx=0), 0xf0)
+        
+    def test_padding(self):
+        target = nba.NBitArray('01100001011000100110001110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000')
+        msg    = nba.NBitArray(b'abc')
+        padded = msg.padding(md=128)
+        self.assertEqual(padded, target)
+        
+    def test_break_to_list(self):
+        ba = nba.NBitArray('1111000011110000')
+        l = ba.break_to_list(el=4)
+        self.assertEqual(len(l), 4)
+        self.assertEqual(str(l[0]), '1111')
 
 if __name__ == '__main__':
     unittest.main()
